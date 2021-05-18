@@ -11,6 +11,7 @@ import (
 	"github.com/shreyas-sriram/ctf-health-bot/pkg/daff"
 )
 
+// CLI flags
 var (
 	Token string
 	file  string

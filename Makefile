@@ -2,7 +2,9 @@ SRCS := $(shell find . -name '*.go')
 LINTERS := \
 	golang.org/x/lint/golint \
 	honnef.co/go/tools/cmd/staticcheck
-APP_NAME := ctf-health-bot
+APP_NAME := daff
+
+CONFIG_FILE := config.yaml
 
 BANNER:=\
     "\n"\
@@ -10,7 +12,6 @@ BANNER:=\
     " * @project       $(APP_NAME)\n"\
     " */\n"\
     "\n"
-
 
 ## build.linux			: Build application for Linux runtime
 .PHONY: build.linux
@@ -81,7 +82,7 @@ run:
 ## start				: Start application
 .PHONY: start
 start:
-	./bin/$(APP_NAME)
+	./bin/$(APP_NAME) -f $(CONFIG_FILE) -t $(BOT_TOKEN)
 
 ## staticcheck			: Run staticcheck
 .PHONY: staticcheck
@@ -91,7 +92,7 @@ staticcheck:
 ## test				: Run tests
 .PHONY: test
 test:
-	ENV=test go test -v -race -coverprofile=coverage.out ./...
+	go test -v -race -coverprofile=coverage.out ./...
 
 ## test.coverage			: Show test coverage report
 .PHONY: test.coverage

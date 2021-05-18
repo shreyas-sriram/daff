@@ -39,15 +39,19 @@ import (
 //			response:
 //				status:
 
+// Config stores the daff configurations
 type Config struct {
 	Challenges map[string]Challenge `yaml:"challenges,omitempty"`
 }
+
+// Challenge stores the details for a challenge
 type Challenge struct {
 	URL      string   `yaml:"url,omitempty"`
 	Request  Request  `yaml:"request,omitempty"`
 	Response Response `yaml:"response,omitempty"`
 }
 
+// Request stores details of a request
 type Request struct {
 	Method  string   `yaml:"method,omitempty"`
 	Headers []string `yaml:"headers,omitempty"`
@@ -55,21 +59,19 @@ type Request struct {
 	Body    string   `yaml:"body,omitempty"`
 }
 
+// Response stores details of a request
 type Response struct {
 	Status int `yaml:"status,omitempty"`
 }
 
 const (
-	headerDelimiter = ":"
-
-	prefix = "!daff"
-
-	responseMessage = "Challenge `%v` is %s\n"
+	headerDelimiter   = ":"
+	prefix            = "!daff"
+	connectionRefused = "connection refused"
+	responseMessage   = "Challenge `%v` is %s\n"
 
 	up   = ":thumbsup:"
 	down = ":thumbsdown:"
-
-	connectionRefused = "connection refused"
 )
 
 // New parses file and returns a new instance of daff config
@@ -95,7 +97,7 @@ func (c *Config) Print() {
 	log.Printf("%s\n", string(bytes))
 }
 
-// This function handles new message from channels that the bot has access to
+// MessageCreate handles new message from channels that the bot has access to
 func (c *Config) MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Check if the message is intended for the bot
