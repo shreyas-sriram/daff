@@ -1,0 +1,18 @@
+challenges:
+  - name: chall-1
+    url: chall-1.ctf.flag
+    request:
+      method: GET
+      headers:
+        - "Authorization:Bearer foobar"
+    response:
+      status: 200
+  - name: chall-2
+    url: chall-2.ctf.flag
+    request:
+      method: POST
+      cookies:
+        - "admin:1"
+      body: "username=guest&password=guest"
+    response:
+      status: 200
