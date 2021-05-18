@@ -18,7 +18,7 @@ var (
 
 func main() {
 	flag.StringVar(&file, "f", "config.yaml", "Config file")
-	flag.StringVar(&Token, "t", "", "Bot Token") // ODQzODgwNjI0NDY4MzkzOTg0.YKKTEw.3XrUTJ4FcRk1ZJYldwOb8B2g860
+	flag.StringVar(&Token, "t", "", "Bot Token")
 	flag.Parse()
 
 	// Check token input
