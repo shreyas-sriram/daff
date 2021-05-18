@@ -1,0 +1,20 @@
+challenges:
+  chall-get:
+    url: http://localhost:5000/get
+    request:
+      method: GET
+      headers:
+        - "Authorization:Bearer foobar"
+    response:
+      status: 200
+  chall-post:
+    url: http://localhost:5000/post
+    request:
+      method: POST
+      headers:
+        - "Content-Type:application/json"
+      cookies:
+        - "admin:1"
+      body: '{"username":"guest","password":"guest"}'
+    response:
+      status: 200

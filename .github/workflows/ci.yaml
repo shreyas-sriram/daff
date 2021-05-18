@@ -1,0 +1,34 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.16.3"
+
+      - name: Install dependencies
+        run: |
+          go version
+          make deps
+          make testdeps
+
+      - name: Build
+        run: make build.linux
+
+      - name: Test
+        run: make test
+
+      - name: Run Vet & Lint
+        run: |
+          make vet
+          make lint
