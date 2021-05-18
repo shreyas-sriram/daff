@@ -42,7 +42,6 @@ import (
 type Config struct {
 	Challenges map[string]Challenge `yaml:"challenges,omitempty"`
 }
-
 type Challenge struct {
 	URL      string   `yaml:"url,omitempty"`
 	Request  Request  `yaml:"request,omitempty"`
@@ -63,7 +62,7 @@ type Response struct {
 const (
 	headerDelimiter = ":"
 
-	prefix = "!daff" // TBD, give a nice name
+	prefix = "!daff"
 
 	responseMessage = "Challenge `%v` is %s\n"
 
@@ -73,12 +72,13 @@ const (
 	connectionRefused = "connection refused"
 )
 
+// New parses file and returns a new instance of daff config
 func New(file string) (*Config, error) {
 	config := &Config{}
 
 	err := config.parseFile(file)
 	if err != nil {
-		log.Printf("Error parsing config file: %v", err)
+		log.Printf("Error parsing config file: %v\n", err)
 		return nil, err
 	}
 
@@ -89,7 +89,8 @@ func New(file string) (*Config, error) {
 func (c *Config) Print() {
 	bytes, err := json.MarshalIndent(c, "", "  ")
 	if err != nil {
-		log.Fatalf(err.Error())
+		log.Printf("Error marshalling: %v\n", err)
+		return
 	}
 	log.Printf("%s\n", string(bytes))
 }
@@ -111,7 +112,9 @@ func (c *Config) MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate)
 
 	res, err := c.CheckSanity(challenge)
 	if err != nil {
-		log.Printf("Failed to check health: %v", err)
+		log.Printf("Failed to check health: %v\n", err)
+		// Do not return for `connection refused` error
+		// `connection refused` indicates server is down
 		if !strings.Contains(err.Error(), connectionRefused) {
 			return
 		}
@@ -125,7 +128,7 @@ func (c *Config) MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate)
 		message = fmt.Sprintf(responseMessage, challenge, down)
 	}
 
-	log.Printf("Responding with message: %v", message)
+	log.Printf("Responding with message: %v\n", message)
 	s.ChannelMessageSend(m.ChannelID, message)
 }
 
@@ -133,7 +136,7 @@ func (c *Config) MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate)
 func (c *Config) CheckSanity(name string) (bool, error) {
 	challenge, ok := c.Challenges[name]
 	if !ok {
-		log.Print("Challenge configuration not found")
+		log.Printf("Challenge configuration not found\n")
 		return false, fmt.Errorf("challenge configuration not found")
 	}
 
@@ -162,7 +165,7 @@ func (c *Config) CheckSanity(name string) (bool, error) {
 func (c *Config) parseFile(file string) error {
 	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
-		log.Printf("Error reading config file: %v", err)
+		log.Printf("Error reading config file: %v\n", err)
 		return err
 	}
 
@@ -170,7 +173,7 @@ func (c *Config) parseFile(file string) error {
 
 	err = yaml.Unmarshal(fileBytes, c)
 	if err != nil {
-		log.Printf("Error unmarshalling config file: %v", err)
+		log.Printf("Error unmarshalling config file: %v\n", err)
 		return err
 	}
 
