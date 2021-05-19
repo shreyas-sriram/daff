@@ -25,5 +25,4 @@ bin/
 !.vscode/extensions.json
 
 **/log
-**/*.png
 **/.DS_Store
