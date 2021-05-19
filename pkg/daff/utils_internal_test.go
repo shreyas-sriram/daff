@@ -2,6 +2,8 @@ package daff
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"testing"
 
@@ -9,6 +11,8 @@ import (
 )
 
 func TestIsResponseValid(t *testing.T) {
+	log.SetOutput(ioutil.Discard)
+
 	type input struct {
 		received *http.Response
 		expected *Response
@@ -25,11 +29,13 @@ func TestIsResponseValid(t *testing.T) {
 
 	for _, test := range tests {
 		got := isResponseValid(test.args.received, test.args.expected)
-		assert.Equal(t, got, test.want, "got: %+v, want %+v", got, test.want)
+		assert.Equal(t, got, test.want, "got: %+v, want: %+v", got, test.want)
 	}
 }
 
 func TestParseKeyValue(t *testing.T) {
+	log.SetOutput(ioutil.Discard)
+
 	type output struct {
 		result map[string]string
 		err    error
@@ -48,7 +54,7 @@ func TestParseKeyValue(t *testing.T) {
 
 	for _, test := range tests {
 		got, err := parseKeyValue(test.args)
-		assert.Equal(t, err, test.want.err, "got: %+v, want %+v", err, test.want.err)
-		assert.Equal(t, got, test.want.result, "got: %+v, want %+v", got, test.want.result)
+		assert.Equal(t, err, test.want.err, "got: %+v, want: %+v", err, test.want.err)
+		assert.Equal(t, got, test.want.result, "got: %+v, want: %+v", got, test.want.result)
 	}
 }

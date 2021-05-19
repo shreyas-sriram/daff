@@ -8,7 +8,8 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/shreyas-sriram/ctf-health-bot/pkg/daff"
+
+	"github.com/shreyas-sriram/daff/pkg/daff"
 )
 
 // CLI flags

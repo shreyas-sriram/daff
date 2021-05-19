@@ -1,4 +1,4 @@
-module github.com/shreyas-sriram/ctf-health-bot
+module github.com/shreyas-sriram/daff
 
 go 1.16
 
