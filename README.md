@@ -12,6 +12,14 @@ CTF participants do not have to pester organizers about the challenge's health :
 
 ## Usage
 
+### Bot command
+
+```
+!daff <challenge-name>
+```
+
+### Server
+
 ```
 Usage of ./bin/daff:
   -f string
