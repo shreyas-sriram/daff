@@ -19,3 +19,32 @@ Usage of ./bin/daff:
   -t string
     	Bot Token
 ```
+
+### Configuration file
+
+#### Format
+
+```
+challenges:
+  chall-get:
+    url: http://localhost:5000/get
+    request:
+      method: GET
+      headers:
+        - "Authorization:Bearer foobar"
+      cookies:
+        - "admin:1"
+      body: '{"username":"guest","password":"guest"}'
+    response:
+      status: 200
+```
+
+| Field       | Description                                                                   | Type              |
+| ----------- | ----------------------------------------------------------------------------- | ----------------- |
+| chall-get   | Name of the challenge                                                         | string            |
+| url         | URL of the challenge                                                          | string            |
+| method      | HTTP method (GET / POST)                                                      | string            |
+| headers     | Headers to be added in the request. Header key and value are separated by `:` | array of strings  |
+| cookies     | Cookies to be added in the request. Cookie key and value are separated by `:` | array of strings  |
+| body        | Raw body to be added in the request                                           | string            |
+| status      | Expected response status                                                      | int               |
