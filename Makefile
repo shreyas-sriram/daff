@@ -33,20 +33,6 @@ clean:
 deps:
 	go get -d -v ./...
 
-## docker.build			: Build application as docker
-.PHONY: docker.build
-docker.build:
-	docker build . -t $(APP_NAME) 
-
-## docker.run			: Run application in docker
-.PHONY: docker.run
-docker.run:
-	docker run -p 3000:3000 $(APP_NAME)
-
-## docker				: Build and run application as docker
-.PHONY: docker
-docker: docker.build docker.run
-
 ## golint				: Run golint on all *.go files
 .PHONY: golint
 golint: 
